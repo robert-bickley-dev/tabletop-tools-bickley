@@ -173,7 +173,10 @@ function getProficiencyBonus(level, rank) {
  * @returns {number} the cover bonus to AC
  */
 function getCoverBonus(behindObstacle, takingCover) {
-  if (behindObstacle === true && takingCover === true) {
+  if (typeof behindObstacle !== "boolean" || typeof takingCover !== "boolean") {
+    console.log("Error: arguments must be booleans.");
+    return 0;
+  } else if (behindObstacle === true && takingCover === true) {
     console.log(
       "Creature is behind an obstacle AND actively taking cover. +4 Bonus to AC.",
     );
