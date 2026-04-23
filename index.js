@@ -93,7 +93,26 @@ function doesStrikeCrit(attack, ac) {
  * @returns {number} total hit points after healing
  */
 function heal(maxHp, currentHp, healAmount) {
-  if (healAmount >= maxHp - currentHp) {
+  if (
+    typeof maxHp !== "number" ||
+    typeof currentHp !== "number" ||
+    typeof healAmount !== "number"
+  ) {
+    console.log("Error: arguments must be numbers.");
+    return currentHp;
+  } else if (maxHp <= 0) {
+    console.log("Error: maxHp must be positive.");
+    return currentHp;
+  } else if (currentHp > maxHp) {
+    console.log("Error: currentHp must be below maxHp");
+    return currentHp;
+  } else if (healAmount < 0) {
+    console.log("Error: healAmount cannot be negative.");
+    return currentHp;
+  } else if (currentHp < 0) {
+    console.log("Creature is dead. Healing is not possible.");
+    return currentHp;
+  } else if (healAmount >= maxHp - currentHp) {
     console.log(`Creature restored to full health. Now has ${maxHp}HP`);
     return maxHp;
   } else {
