@@ -206,7 +206,17 @@ function getRemainingHp(maxHp, currentHp, damage) {
   const INSTANT_DEATH = -1;
   const KNOCKED_OUT = 0;
 
-  if (damage >= maxHp * 2) {
+  if (
+    typeof maxHp !== "number" ||
+    typeof currentHp !== "number" ||
+    typeof damage !== "number"
+  ) {
+    console.log("Error: arguments must be numbers.");
+    return currentHp;
+  } else if (maxHp <= 0 || currentHp < 0 || currentHp > maxHp || damage < 0) {
+    console.log("Error: invalid HP or damage values.");
+    return currentHp;
+  } else if (damage >= maxHp * 2) {
     console.log("Creature dies instantly.");
     return INSTANT_DEATH;
   } else if (damage >= currentHp) {
