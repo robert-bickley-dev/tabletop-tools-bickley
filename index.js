@@ -239,7 +239,16 @@ function getRemainingHp(maxHp, currentHp, damage) {
  * @returns {boolean} whether the creature can see
  */
 function canSee(light, vision) {
-  if (vision === "dark") {
+  const VALID_LIGHT = ["bright", "dim", "dark"];
+  const VALID_VISION = ["average", "low-light", "dark"];
+
+  if (!VALID_LIGHT.includes(light)) {
+    console.log("Error: light must be 'bright', 'dim', or 'dark'.");
+    return false;
+  } else if (!VALID_VISION.includes(vision)) {
+    console.log("Error: vision must be 'average', 'low-light', or 'dark'.");
+    return false;
+  } else if (vision === "dark") {
     console.log("Creature can see");
     return true;
   } else if (vision === "low-light" && light !== "dark") {
