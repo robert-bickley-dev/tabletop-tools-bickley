@@ -6,7 +6,10 @@
  * @returns {boolean} whether the wizard can cast the spell
  */
 function canCastSpell(isSpellPrepared, hasScroll) {
-  if (isSpellPrepared === true || hasScroll === true) {
+  if (typeof isSpellPrepared !== "boolean" || typeof hasScroll !== "boolean") {
+    console.log("Error: arguments must be booleans.");
+    return false;
+  } else if (isSpellPrepared === true || hasScroll === true) {
     console.log("The wizard is able to cast the spell.");
     return true;
   } else {
