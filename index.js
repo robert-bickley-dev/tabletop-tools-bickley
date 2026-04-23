@@ -6,7 +6,13 @@
  * @returns {boolean} whether the wizard can cast the spell
  */
 function canCastSpell(isSpellPrepared, hasScroll) {
-  // TODO
+  if (isSpellPrepared === true || hasScroll === true) {
+    console.log("The wizard is able to cast the spell.");
+    return true;
+  } else {
+    console.log("The wizard is unable to cast the spell.");
+    return false;
+  }
 }
 
 /**
