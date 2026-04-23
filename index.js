@@ -74,7 +74,15 @@ function doesStrikeCrit(attack, ac) {
  * @returns {number} total hit points after healing
  */
 function heal(maxHp, currentHp, healAmount) {
-  // TODO
+  if (healAmount >= maxHp - currentHp) {
+    console.log(`Creature restored to full health. Now has ${maxHp}HP`);
+    return maxHp;
+  } else {
+    console.log(
+      `Creature is healed for ${healAmount}HP. Now has ${currentHp + healAmount}/${maxHp}HP`,
+    );
+    return currentHp + healAmount;
+  }
 }
 
 /**
@@ -94,7 +102,24 @@ function heal(maxHp, currentHp, healAmount) {
  * @returns {number} the character's proficiency bonus
  */
 function getProficiencyBonus(level, rank) {
-  // TODO
+  const PROFICIENCY = {
+    untrained: 0,
+    trained: 2,
+    expert: 4,
+    master: 6,
+    legendary: 8,
+  };
+
+  if (!(rank in PROFICIENCY)) {
+    console.log("Invalid rank");
+    return 0;
+  } else if (rank === "untrained") {
+    console.log("No proficiency bonus.");
+    return 0;
+  } else {
+    console.log(`+${PROFICIENCY[rank]} ${rank} proficiency bonus.`);
+    return level + PROFICIENCY[rank];
+  }
 }
 
 /**
