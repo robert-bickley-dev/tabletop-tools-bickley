@@ -147,8 +147,10 @@ function getProficiencyBonus(level, rank) {
     master: 6,
     legendary: 8,
   };
-
-  if (!(rank in PROFICIENCY)) {
+  if (typeof level !== "number" || level < 1) {
+    console.log("Error: level must be a positive number.");
+    return 0;
+  } else if (!(rank in PROFICIENCY)) {
     console.log("Invalid rank");
     return 0;
   } else if (rank === "untrained") {
