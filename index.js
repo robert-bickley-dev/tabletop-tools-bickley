@@ -9,14 +9,24 @@ function canCastSpell(isSpellPrepared, hasScroll) {
   if (typeof isSpellPrepared !== "boolean" || typeof hasScroll !== "boolean") {
     console.log("Error: arguments must be booleans.");
     return false;
-  } else if (isSpellPrepared === true || hasScroll === true) {
-    console.log("The wizard is able to cast the spell.");
-    return true;
-  } else {
-    console.log("The wizard is unable to cast the spell.");
-    return false;
   }
+
+  const canCast = isSpellPrepared || hasScroll;
+  console.log(
+    canCast
+      ? "The wizard is able to cast the spell."
+      : "The wizard is unable to cast the spell.",
+  );
+  return canCast;
 }
+
+const canCast = isSpellPrepared || hasScroll;
+console.log(
+  canCast
+    ? "The wizard is able to cast the spell."
+    : "The wizard is unable to cast the spell.",
+);
+return canCast;
 
 /**
  * A creature is hidden from an observer if it is actively hiding
@@ -29,13 +39,12 @@ function isHidden(hiding, aware) {
   if (typeof hiding !== "boolean" || typeof aware !== "boolean") {
     console.log("Error: arguments must be booleans.");
     return false;
-  } else if (hiding === true || aware === false) {
-    console.log("Creature is hidden.");
-    return true;
-  } else {
-    console.log("Creature is not hidden.");
-    return false;
   }
+  const creatureHidden = hiding || !aware;
+  console.log(
+    creatureHidden ? "Creature is hidden." : "Creature is not hidden.",
+  );
+  return creatureHidden;
 }
 
 /**
@@ -49,16 +58,14 @@ function doesStrikeHit(attack, ac) {
   if (typeof attack !== "number" || typeof ac !== "number") {
     console.log("Error: arguments must be numbers.");
     return false;
-  } else if (ac < 0) {
+  }
+  if (ac < 0) {
     console.log("Error: AC cannot be negative.");
     return false;
-  } else if (attack >= ac) {
-    console.log("Hit!");
-    return true;
-  } else {
-    console.log("Miss");
-    return false;
   }
+  const strikeSuccessful = attack >= ac;
+  console.log(strikeSuccessful ? "Hit!" : "Miss");
+  return strikeSuccessful;
 }
 
 /**
@@ -72,16 +79,14 @@ function doesStrikeCrit(attack, ac) {
   if (typeof attack !== "number" || typeof ac !== "number") {
     console.log("Error: arguments must be numbers.");
     return false;
-  } else if (ac < 0) {
+  }
+  if (ac < 0) {
     console.log("Error: AC cannot be negative.");
     return false;
-  } else if (attack >= ac + 10) {
-    console.log("Critical hit!");
-    return true;
-  } else {
-    console.log("Standard attack");
-    return false;
   }
+  const criticalSuccessful = attack >= ac + 10;
+  console.log(criticalSuccessful ? "Critical hit!" : "Standard attack");
+  return criticalSuccessful;
 }
 
 /**
@@ -100,27 +105,31 @@ function heal(maxHp, currentHp, healAmount) {
   ) {
     console.log("Error: arguments must be numbers.");
     return currentHp;
-  } else if (maxHp <= 0) {
+  }
+  if (maxHp <= 0) {
     console.log("Error: maxHp must be positive.");
     return currentHp;
-  } else if (currentHp > maxHp) {
+  }
+  if (currentHp > maxHp) {
     console.log("Error: currentHp must be below maxHp");
     return currentHp;
-  } else if (healAmount < 0) {
+  }
+  if (healAmount < 0) {
     console.log("Error: healAmount cannot be negative.");
     return currentHp;
-  } else if (currentHp < 0) {
+  }
+  if (currentHp < 0) {
     console.log("Creature is dead. Healing is not possible.");
     return currentHp;
-  } else if (healAmount >= maxHp - currentHp) {
-    console.log(`Creature restored to full health. Now has ${maxHp}HP`);
-    return maxHp;
-  } else {
-    console.log(
-      `Creature is healed for ${healAmount}HP. Now has ${currentHp + healAmount}/${maxHp}HP`,
-    );
-    return currentHp + healAmount;
   }
+
+  const newHp = Math.min(currentHp + healAmount, maxHp);
+  console.log(
+    newHp === maxHp
+      ? `Creature restored to full health. Now has ${maxHp}HP`
+      : `Creature is healed for ${healAmount}HP. Now has ${currentHp + healAmount}/${maxHp}HP`,
+  );
+  return newHp;
 }
 
 /**
@@ -140,26 +149,31 @@ function heal(maxHp, currentHp, healAmount) {
  * @returns {number} the character's proficiency bonus
  */
 function getProficiencyBonus(level, rank) {
-  const PROFICIENCY = {
+  const NO_PROFICIENCY_BONUS = 0;
+  const RANK_BONUS = {
     untrained: 0,
     trained: 2,
     expert: 4,
     master: 6,
     legendary: 8,
   };
+
   if (typeof level !== "number" || level < 1) {
     console.log("Error: level must be a positive number.");
-    return 0;
-  } else if (!(rank in PROFICIENCY)) {
-    console.log("Invalid rank");
-    return 0;
-  } else if (rank === "untrained") {
-    console.log("No proficiency bonus.");
-    return 0;
-  } else {
-    console.log(`+${PROFICIENCY[rank]} ${rank} proficiency bonus.`);
-    return level + PROFICIENCY[rank];
+    return NO_PROFICIENCY_BONUS;
   }
+  if (!(rank in RANK_BONUS)) {
+    console.log("Invalid rank");
+    return NO_PROFICIENCY_BONUS;
+  }
+  if (rank === "untrained") {
+    console.log("No proficiency bonus.");
+    return NO_PROFICIENCY_BONUS;
+  }
+
+  const proficiencyBonus = level + RANK_BONUS[rank];
+  console.log(`+${proficiencyBonus} ${rank} proficiency bonus.`);
+  return proficiencyBonus;
 }
 
 /**
@@ -176,18 +190,19 @@ function getCoverBonus(behindObstacle, takingCover) {
   if (typeof behindObstacle !== "boolean" || typeof takingCover !== "boolean") {
     console.log("Error: arguments must be booleans.");
     return 0;
-  } else if (behindObstacle === true && takingCover === true) {
+  }
+  if (behindObstacle && takingCover) {
     console.log(
       "Creature is behind an obstacle AND actively taking cover. +4 Bonus to AC.",
     );
     return 4;
-  } else if (behindObstacle === true && takingCover === false) {
+  }
+  if (behindObstacle) {
     console.log("Creature is behind an obstacle. +2 to AC.");
     return 2;
-  } else {
-    console.log("No AC bonus");
-    return 0;
   }
+  console.log("No AC bonus");
+  return 0;
 }
 
 /**
@@ -213,21 +228,24 @@ function getRemainingHp(maxHp, currentHp, damage) {
   ) {
     console.log("Error: arguments must be numbers.");
     return currentHp;
-  } else if (maxHp <= 0 || currentHp < 0 || currentHp > maxHp || damage < 0) {
+  }
+  if (maxHp <= 0 || currentHp < 0 || currentHp > maxHp || damage < 0) {
     console.log("Error: invalid HP or damage values.");
     return currentHp;
-  } else if (damage >= maxHp * 2) {
+  }
+
+  const newHp = currentHp - damage;
+
+  if (damage >= maxHp * 2) {
     console.log("Creature dies instantly.");
     return INSTANT_DEATH;
-  } else if (damage >= currentHp) {
+  }
+  if (newHp <= 0) {
     console.log("Creature is knocked out.");
     return KNOCKED_OUT;
-  } else {
-    console.log(
-      `Creature takes ${damage} damage. Now has ${currentHp - damage}HP left.`,
-    );
-    return currentHp - damage;
   }
+  console.log(`Creature takes ${damage} damage. Now has ${newHp}HP left.`);
+  return newHp;
 }
 
 /**
@@ -245,22 +263,19 @@ function canSee(light, vision) {
   if (!VALID_LIGHT.includes(light)) {
     console.log("Error: light must be 'bright', 'dim', or 'dark'.");
     return false;
-  } else if (!VALID_VISION.includes(vision)) {
+  }
+  if (!VALID_VISION.includes(vision)) {
     console.log("Error: vision must be 'average', 'low-light', or 'dark'.");
     return false;
-  } else if (vision === "dark") {
-    console.log("Creature can see");
-    return true;
-  } else if (vision === "low-light" && light !== "dark") {
-    console.log("Creature can see.");
-    return true;
-  } else if (vision === "average" && light === "bright") {
-    console.log("Creature can see.");
-    return true;
-  } else {
-    console.log("Creature can not see.");
-    return false;
   }
+
+  const canCreatureSee =
+    vision === "dark" ||
+    (vision === "low-light" && light !== "dark") ||
+    (vision === "average" && light === "bright");
+
+  console.log(canCreatureSee ? "Creature can see." : "Creature cannot see.");
+  return canCreatureSee;
 }
 
 /**
@@ -281,17 +296,22 @@ function getStrikeDamage(attack, ac, damage) {
   ) {
     console.log("Error: arguments must be numbers.");
     return 0;
-  } else if (damage < 0) {
+  }
+  if (damage < 0) {
     console.log("Error: damage cannot be negative.");
     return 0;
-  } else if (!doesStrikeHit(attack, ac)) {
+  }
+  if (!doesStrikeHit(attack, ac)) {
     console.log("Miss. No damage dealt.");
     return 0;
-  } else if (doesStrikeCrit(attack, ac)) {
-    console.log(`Critical hit! ${damage * 2} damage dealt.`);
-    return damage * 2;
-  } else {
-    console.log(`Hit! ${damage} damage dealt.`);
-    return damage;
   }
+
+  const isCrit = doesStrikeCrit(attack, ac);
+  const damageDealt = isCrit ? damage * 2 : damage;
+  console.log(
+    isCrit
+      ? `Critical hit! ${damageDealt} damage dealt.`
+      : `Hit! ${damageDealt} damage dealt.`,
+  );
+  return damageDealt;
 }
