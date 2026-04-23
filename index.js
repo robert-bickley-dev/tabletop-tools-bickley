@@ -49,6 +49,9 @@ function doesStrikeHit(attack, ac) {
   if (typeof attack !== "number" || typeof ac !== "number") {
     console.log("Error: arguments must be numbers.");
     return false;
+  } else if (ac < 0) {
+    console.log("Error: AC cannot be negative.");
+    return false;
   } else if (attack >= ac) {
     console.log("Hit!");
     return true;
