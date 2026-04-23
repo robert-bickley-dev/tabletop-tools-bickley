@@ -40,9 +40,14 @@ function isHidden(hiding, aware) {
  * @returns {boolean} whether the strike hits
  */
 function doesStrikeHit(attack, ac) {
-  // TODO
+  if (attack >= ac) {
+    console.log("Hit!");
+    return true;
+  } else {
+    console.log("Miss");
+    return false;
+  }
 }
-
 /**
  * A strike is a critical hit if the attack value is at least
  * 10 greater than the target's armor class (AC).
