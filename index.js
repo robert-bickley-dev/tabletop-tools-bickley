@@ -26,7 +26,10 @@ function canCastSpell(isSpellPrepared, hasScroll) {
  * @returns {boolean} whether the creature is hidden from the observer
  */
 function isHidden(hiding, aware) {
-  if (hiding === true || aware === false) {
+  if (typeof hiding !== "boolean" || typeof aware !== "boolean") {
+    console.log("Error: arguments must be booleans.");
+    return false;
+  } else if (hiding === true || aware === false) {
     console.log("Creature is hidden.");
     return true;
   } else {
@@ -43,7 +46,10 @@ function isHidden(hiding, aware) {
  * @returns {boolean} whether the strike hits
  */
 function doesStrikeHit(attack, ac) {
-  if (attack >= ac) {
+  if (typeof attack !== "number" || typeof ac !== "number") {
+    console.log("Error: arguments must be numbers.");
+    return false;
+  } else if (attack >= ac) {
     console.log("Hit!");
     return true;
   } else {
@@ -51,6 +57,7 @@ function doesStrikeHit(attack, ac) {
     return false;
   }
 }
+
 /**
  * A strike is a critical hit if the attack value is at least
  * 10 greater than the target's armor class (AC).
