@@ -274,7 +274,17 @@ function canSee(light, vision) {
  * @returns {number} damage dealt by the strike
  */
 function getStrikeDamage(attack, ac, damage) {
-  if (!doesStrikeHit(attack, ac)) {
+  if (
+    typeof attack !== "number" ||
+    typeof ac !== "number" ||
+    typeof damage !== "number"
+  ) {
+    console.log("Error: arguments must be numbers.");
+    return 0;
+  } else if (damage < 0) {
+    console.log("Error: damage cannot be negative.");
+    return 0;
+  } else if (!doesStrikeHit(attack, ac)) {
     console.log("Miss. No damage dealt.");
     return 0;
   } else if (doesStrikeCrit(attack, ac)) {
