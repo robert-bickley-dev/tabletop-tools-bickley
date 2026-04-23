@@ -133,7 +133,18 @@ function getProficiencyBonus(level, rank) {
  * @returns {number} the cover bonus to AC
  */
 function getCoverBonus(behindObstacle, takingCover) {
-  // TODO
+  if (behindObstacle === true && takingCover === true) {
+    console.log(
+      "Creature is behind an obstacle AND actively taking cover. +4 Bonus to AC.",
+    );
+    return 4;
+  } else if (behindObstacle === true && takingCover === false) {
+    console.log("Creature is behind an obstacle. +2 to AC.");
+    return 2;
+  } else {
+    console.log("No AC bonus");
+    return 0;
+  }
 }
 
 /**
