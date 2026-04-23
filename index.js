@@ -212,5 +212,14 @@ function canSee(light, vision) {
  * @returns {number} damage dealt by the strike
  */
 function getStrikeDamage(attack, ac, damage) {
-  // TODO
+  if (!doesStrikeHit(attack, ac)) {
+    console.log("Miss. No damage dealt.");
+    return 0;
+  } else if (doesStrikeCrit(attack, ac)) {
+    console.log(`Critical hit! ${damage * 2} damage dealt.`);
+    return damage * 2;
+  } else {
+    console.log(`Hit! ${damage} damage dealt.`);
+    return damage;
+  }
 }
