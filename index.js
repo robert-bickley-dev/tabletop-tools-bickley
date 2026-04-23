@@ -160,7 +160,21 @@ function getCoverBonus(behindObstacle, takingCover) {
  * @returns {number} the creature's remaining HP after taking damage
  */
 function getRemainingHp(maxHp, currentHp, damage) {
-  // TODO
+  const INSTANT_DEATH = -1;
+  const KNOCKED_OUT = 0;
+
+  if (damage >= maxHp * 2) {
+    console.log("Creature dies instantly.");
+    return INSTANT_DEATH;
+  } else if (damage >= currentHp) {
+    console.log("Creature is knocked out.");
+    return KNOCKED_OUT;
+  } else {
+    console.log(
+      `Creature takes ${damage} damage. Now has ${currentHp - damage}HP left.`,
+    );
+    return currentHp - damage;
+  }
 }
 
 /**
