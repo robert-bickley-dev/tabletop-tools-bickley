@@ -23,7 +23,13 @@ function canCastSpell(isSpellPrepared, hasScroll) {
  * @returns {boolean} whether the creature is hidden from the observer
  */
 function isHidden(hiding, aware) {
-  // TODO
+  if (hiding === true || aware === false) {
+    console.log("Creature is hidden.");
+    return true;
+  } else {
+    console.log("Creature is not hidden.");
+    return false;
+  }
 }
 
 /**
